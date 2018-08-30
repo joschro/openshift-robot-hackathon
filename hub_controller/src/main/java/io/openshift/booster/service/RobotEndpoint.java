@@ -38,16 +38,24 @@ public class RobotEndpoint {
     //private final static String ROBOT_ENDPOINT = "http://localhost:8089";
     private RestTemplate restTemplate = new RestTemplate();
     
-    @GET   
-    public Object ping() {        
+    @GET
+    @Path("/status")   
+    public Object status() {        
+                     
+        return "OK";
+    }
+
+    @GET
+    @Path("/remote_status")   
+    public Object remoteStatus() {        
         
         String response = restTemplate.getForObject(edgeControllerEndpoint, String.class);        
         return response;
     }
 
     @POST
-    @Path("/forward/<length_in_cm>")
-    public Object forward(@PathParam("length_in_cm>") Integer lengthInCm ) {        
+    @Path("/forward/{length_in_cm}")
+    public Object forward(@PathParam("length_in_cm") Integer lengthInCm ) {        
         
         HttpEntity<String> request = new HttpEntity<>(new String(""));
         String response = restTemplate.postForObject(edgeControllerEndpoint +"/forward/" + lengthInCm, request, String.class);        
@@ -55,7 +63,7 @@ public class RobotEndpoint {
     }
 
     @POST
-    @Path("/backward/<length_in_cm>")
+    @Path("/backward/{length_in_cm}")
     public Object backward(@PathParam("length_in_cm") Integer lengthInCm ) {        
         
         HttpEntity<String> request = new HttpEntity<>(new String(""));
@@ -64,7 +72,7 @@ public class RobotEndpoint {
     }
 
     @POST
-    @Path("/left/<degrees>")
+    @Path("/left/{degrees}")
     public Object left(@PathParam("degrees") Integer degrees ) {        
         
         HttpEntity<String> request = new HttpEntity<>(new String(""));
@@ -73,7 +81,7 @@ public class RobotEndpoint {
     }
 
     @POST
-    @Path("/right/<degrees>")
+    @Path("/right/{degrees}")
     public Object right(@PathParam("degrees") Integer degrees ) {        
         
         HttpEntity<String> request = new HttpEntity<>(new String(""));
