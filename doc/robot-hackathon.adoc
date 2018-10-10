@@ -1,0 +1,204 @@
+= Robot Hackathon
+
+== Requirements
+
+* Robot(s)
+** WLAN-Router
+** VPN connection
+** Edgecontroller running
+
+* OCP 3.9 Cluster
+** Users
+** Projects
+** Persistent storage configured
+
+* SW components in cluster
+** Central Hubcontroller running
+** Persistent multi-user Che with pre-created users
+** Persistent Gogs with pre-created users
+** Ephemeral Nexus
+
+* 3Scale
+** SaaS account setup
+
+== Introduction
+
+You are a special mission super coder/geek. Your mission is to complete 
+several assignements using a state-of-the-art robot in a dangerous environment. 
+The robot is provided by Robot Services, Ltd. Because speed is of utmost 
+importance you will utilize agile and DevOps based development 
+methodologies. To get productive quickly you will use the container 
+platform OpenShift which will be provided by Robot Services. 
+
+== Your Adventure starts... connect to the Robot
+
+=== Access the API
+
+Robot Service Ltd provides access to their robots through an API gateway based 
+on the 3Scale API Management platform.
+
+TIP: As the robots are accessed over a public API, it's important to 
+restrict and limit who can use the API. The API management platform takes care 
+of role-based access control, setting up accounts, monitoring, routing, traffic 
+shaping and more.
+
+Okay, let's get started. Head over to `https://rh-test.3scale.net/` and:
+
+* Click *Signup to Plan Unlimited*
+* Fill in the form:
+** *ORGANIZATION/GROUP NAME*: your robot team name as provided
+** *USERNAME*: Team name again
+** *EMAIL*: A valid and accessible email address
+** **PASSWORD**: Use the password provided
+** Click *Sign Up*
+* Access the email account and look for an email with the subject "Red Hat API 
+account confirmation"
+** Click the activation link
+** You will be redirected to the login page. Log in with your credentials
+* After login you will get your API key to access the robot API
+
+TIP: Look around in the 3Scale web UI, you will see examples of how to invoke 
+the API of your robot. 3Scale will take care of routing your requests to the 
+proper robot. 
+
+* While in the web UI access the *DOCUMENTATION* link in the menu bar. Here you 
+will find the API documentation of all robot operation currently exposed in 
+OpenAPI/Swagger format.
+
+==== Test connection to your robot
+
+There are a number of ways to test the connectivity from your PC via 3Scale to 
+the robot (there are a couple of hops involved, check back to the 
+architecture). You basically need to construct an URL to query the API using 
+the 3Scale access token.
+
+The easiest way is to just run a GET request in your browser querying, say, the 
+power state of the robot. Look up your application ID and access token and 
+replace `<APPID>` and `<TOKEN>`:
+
+----
+https://<APPID>.staging.gw.apicast.io/api/robot/power?user_key=<TOKEN>
+----
+
+TODO
+
+* point to docs
+* use other calls with Postman or curl, examples
+
+=== Accessing OpenShift
+
+Now that you can access and control your robot through the API let's get 
+started with programming the robot by developing applications on our container 
+platform. 
+
+Your team user has already been created for you. Open your browser and access 
+the OpenShift web UI:
+
+----
+https://master.136.243.1.94.nip.io:8443/
+----
+
+* Login as your team user. 
+* Look around TODO
+* To get started developing your application you first have to create a project.
+** Click *+ Create Project*
+** Fill in *Name* and *Display Name* with `<your team>-robot-app`
+
+TIP: You can access OpenShift's functionalities via the web UI or a 
+command line client, of course.
+
+=== Your first application
+
+So we are ready to start some coding. Normally you would now have to setup your 
+dev environment... install IDE, language runtimes, build tool, version control 
+system/access, checkout code.... etc. And most of this specific to your OS.
+
+Because we work in a cutting edge environment we'll use Eclipse Che, a 
+browser-based, cloud-native IDE running in the OpenShift environment.
+
+Access Che in your browser:
+
+----
+http://che-eclipse-che.apps.136.243.1.94.nip.io
+----
+
+Login:
+
+* *Username*: team1
+* *Password*: redhat
+
+Che provides development environment for several languages and runtimes. We'll 
+use Java in this example for our applications.
+
+==== Launch your workspace from Che
+
+After login start your workspace in Che:
+
+* *NAME*: team1-robot-app-workspace 
+* *SELECT STACK*: Java
+* Click *CREATE*
+* After creation has finished a pop-up appears, click *OPEN IN IDE*.
+
+Now your Che workspace should open in your browser. 
+
+==== Get Project Template
+
+Robot Services Ltd has provided a Spring Boot based Template to quickly get you 
+started with your first robot application. To get this template into your 
+workspace:
+
+* Go to *Terminal* in your Che workspace
+* Clone the Git repository (replace your team name): 
+----
+git clone \
+http://gogs-cicd-admin.apps.136.243.1.94.nip.io/<TEAM>-org/robot-app.git
+----
+
+////
+* Go to *Workspace* -> *Import Project...*
+* Choose *GIT*
+* As *URL* put in `http://gogs.cicd-admin.svc/team1-org/robot-app.git`
+////
+
+
+==== CLI Login to OpenShift from Che workspace
+
+Before deploying applications from your Che workspace to OpenShift, you have to 
+login the OpenShift client (oc) to the OpenShift environment. 
+
+Get the login string from the OpenShift web UI:
+* In the web UI, click the top right question mark, choose *Command Line Tools*
+* Now a form opens, copy the *oc login...* string
+* Paste into the Che terminal, press *Enter*
+* You should get a welcome message
+
+==== Run the template app
+
+Change into your project directory:
+----
+cd robot-app
+----
+
+Build and deploy your project:
+
+----
+mvn clean fabric8:deploy -Popenshift -DskipTests
+----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
