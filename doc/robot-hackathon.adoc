@@ -23,18 +23,8 @@ shaping and more.
 
 Okay, let's get started. Head over to `https://rh-test.3scale.net/` and:
 
-* Click *Signup to Plan Unlimited*
-* Fill in the form:
-** *ORGANIZATION/GROUP NAME*: your robot team name as provided
-** *USERNAME*: Team name again
-** *EMAIL*: A valid and accessible email address
-** **PASSWORD**: Use the password provided
-** Click *Sign Up*
-* Access the email account and look for an email with the subject "Red Hat API 
-account confirmation"
-** Click the activation link
-** You will be redirected to the login page. Log in with your credentials
-* After login you will get your API key to access the robot API
+* Login with your team credentials (roboteam1-8, password as provided)
+* After login you will see the API key you need to access the robot API
 
 TIP: Look around in the 3Scale web UI, you will see examples of how to invoke 
 the API of your robot. 3Scale will take care of routing your requests to the 
@@ -54,18 +44,6 @@ connection to the Hub-Controller, *not* the robot!
 curl https://<URI>:443/api/robot/status?user_key=<YOUR KEY>
 OK 
 ----
-
-==== Mapping the Key to your Robot
-
-To map your newly created *Key* to your teams robot, the robot admin team has 
-to configure the Hub-Controller application. 
-
-So please:
-
-* Take note of your API key
-* Together with your team name send it to dbrintzi@redhat.com
-* Daniel will enter it into the mapping table, feel free to look over his 
-shoulder...
 
 ==== Exploring the Robot API
 
@@ -124,7 +102,8 @@ So we are ready to start some coding. Normally you would now have to setup your
 dev environment... install IDE, language runtimes, build tool, version control 
 system/access, checkout code.... etc. And most of this specific to your OS.
 
-Because we work in a cutting edge environment we'll use Eclipse Che, a 
+Because we work in a cutting edge environment we'll use 
+https://www.eclipse.org/che/[Eclipse Che], a 
 browser-based, cloud-native IDE running in the OpenShift environment.
 
 Access Che in your browser:
@@ -149,7 +128,7 @@ workspace in Che:
 * *NAME*: team1-robot-app-workspace 
 * *SELECT STACK*: Java
 * Click *CREATE*
-* After creation has finished a pop-up appears, click *OPEN IN IDE*.
+* After creation has finished a pop-up appears, click *OPEN*.
 
 Now your Che workspace should open in your browser. 
 
@@ -165,11 +144,13 @@ To get this application into your workspace:
 
 * In your Che workspace, click *Import Project*
 * In the *Import project* window:
-** Chosse *GIT*
+** Choose *GIT*
 ** *URL*: 
 \http://gogs-cicd-admin.apps-9d00.generic.opentlc.com/gogs/robot-hackathon-<your 
 team name>.git
 ** *Name*: Adapt the name to something sensible
+* In the next dialog choose *Java -> Maven*
+* Click *Save*
 
 ==== Installing the OpenShift Client
 
@@ -181,7 +162,13 @@ client. In your Che workspace, open a terminal and run:
 # sh /projects/robot-hackathon-<your team user>/get_oc_client.sh
 ----
 
-This will download the client and add it to $PATH.
+This will download the client. 
+
+Add it to the executable path:
+
+----
+export PATH=$PATH:/projects/ocpclient/
+----
 
 WARNING: You need to set the path again when using a new terminal: `export 
 PATH=$PATH:/projects/ocpclient/`
@@ -201,7 +188,7 @@ Get the login string from the OpenShift web UI:
 
 === Running the Application Locally
 
-Open a new terminal in your Che workspace by clicking the *+* sign in the 
+*Open a new terminal* in your Che workspace by clicking the *+* sign in the 
 lower workspace pane. Change into your project directory:
 
 ----
@@ -289,7 +276,7 @@ Now you should have all the information to start hacking the robot!
 
 === Challenge
 
-Task: Make your robot drive in a square with approx 20 cm length
+Task: Make your robot drive in a square with approx 20cm edge length
 
 Hints:
 
@@ -330,10 +317,10 @@ HttpEntity<MultiValueMap<String, String>>(paramMap,
 === Missions
 
 * Mission 1 : Have the robot stop exactly at a certain point
-* Mission 2 : Prometheus / Grafana Dashboard (Power, Distance)
-* Mission 3 : Use Distance Sensor: Stop in front of the robot barrier
-* Mission 4 : Navigate a predefined labyrinth
-* Mission 5 : Navigate an unknown labyrinth
+* Mission 2 : Use Distance Sensor: Stop in front of the robot barrier
+* Mission 3 : Navigate a predefined labyrinth
+* Mission 4 : Navigate an unknown labyrinth
+* Mission X : Prometheus / Grafana Dashboard (Power, Distance)
 
 
 
