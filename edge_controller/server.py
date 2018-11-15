@@ -84,6 +84,14 @@ def right(degrees):
     stop_executing("right : " + degrees)
     return "OK"
 
+@app.route('/servo/<int:degrees>', methods=['POST'])
+def servo(degrees):
+    start_executing ("servo : " + str(degrees))
+    servo = easygpg.init_servo()
+    servo.rotate_servo(degrees)
+    stop_executing("servoZ : " + str(degrees))
+    return "OK"
+
 @app.route('/reset', methods=['POST'])
 def reset():
     start_executing ("reset")
