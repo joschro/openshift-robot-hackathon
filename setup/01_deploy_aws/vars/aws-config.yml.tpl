@@ -15,7 +15,7 @@ prefix_master_dns: "master"
 public_subdomain_prefix: "apps"
 
 # Amazon key pair to use, must exist before running script. Please generate in AWS management console.
-aws_key_pair: "grieger_ec2"
+aws_key_pair: "keypair_name"
 
 # Specify ami you want to use, note the ami
 # below refers to a gold image in ca-central-1, it's unlikely you have access
@@ -44,7 +44,7 @@ monitoring_storage_enabled: true
 # Set admin to true for users you want to be the cluster administrator
 # Any admin users are also added to master linux VM for cockpit
 users:
-  - {name: admin, password: r3dh4t1!, admin: true}
+  - {name: admin, password: password, admin: true}
 
 # Generates a set of non-admin users that can be used for workshops,
 # demos, etc. Users are created with the prefix plus a number using
@@ -52,7 +52,7 @@ users:
 create_generic_user: false
 generic_user_prefix: roboteam
 generic_user_count: 5
-generic_user_password: Hackath0n1!
+generic_user_password: password
 
 #####################################################################
 # SSL configuration - Optional
