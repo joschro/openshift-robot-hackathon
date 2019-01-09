@@ -1,0 +1,15 @@
+---
+- name: Add gluster repo to master
+  shell: 'subscription-manager repos --enable="rh-gluster-3-for-rhel-7-server-rpms"'
+  register: result
+  until: result is succeeded
+  retries: 10
+  delay: 5      
+  become: true
+
+- name: Install packages
+  yum:
+    name:
+      - "heketi-client"
+      - "cns-deploy"
+  become: true

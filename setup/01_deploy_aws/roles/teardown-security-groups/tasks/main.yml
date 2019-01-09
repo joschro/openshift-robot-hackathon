@@ -1,0 +1,24 @@
+---
+- name: Delete openshift-vpc security group
+  ec2_group:
+    name: "{{namespace}}-vpc"
+    region: "{{region}}"
+    state: "absent"
+
+- name: Delete openshift-public-ingress security group
+  ec2_group:
+    name: "{{namespace}}-public-ingress"
+    region: "{{region}}"
+    state: "absent"
+
+- name: Delete openshift-public-egress security group
+  ec2_group:
+    name: "{{namespace}}-public-egress"
+    region: "{{region}}"
+    state: "absent"
+
+- name: Delete openshift-ssh security group
+  ec2_group:
+    name: "{{namespace}}-ssh"
+    region: "{{region}}"
+    state: "absent"

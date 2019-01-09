@@ -1,0 +1,18 @@
+To use a custom VPN gateway on a AWS intance, you must disable source/destination checking on the VPN gateway and enable routing on the VPC/Subnet layer:
+
+Disable source/destination checking using the console
+-----------------------------------------------------
+
+Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
+
+In the navigation pane, choose Instance OpenVPN is running on.
+
+choose Actions, Networking, Change Source/Dest. Check., disable
+
+Updating the Route Table
+-----------------------------
+
+Add route in subnet routing table to OpenVPN server instance.
+
+
+https://docs.aws.amazon.com/vpc/latest/userguide/VPC_NAT_Instance.html

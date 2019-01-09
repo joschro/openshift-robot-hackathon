@@ -1,0 +1,8 @@
+---
+- name: Add gluster repo to node
+  shell: 'subscription-manager repos --enable="rh-gluster-3-client-for-rhel-7-server-rpms"'
+  register: result
+  until: result is succeeded
+  retries: 10
+  delay: 5      
+  become: true

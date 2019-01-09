@@ -1,0 +1,23 @@
+---
+- hosts: master
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: create htpasswd user
+      command: htpasswd -b /etc/origin/master/htpasswd roboteam{{ item }} Hackath0n{{ item }}!
+      with_sequence: count=8
+
+    - name: create OCP users
+      command: oc create user roboteam{{ item }}
+      with_sequence: count=8
+
+    - name: create projects for users
+      command: oc new-project roboteam{{ item }}-project
+      with_sequence: count=8
+
+    - name: change into project and add admin role
+      shell: oc project roboteam{{ item }}-project && oc policy add-role-to-user admin roboteam{{ item }}
+      with_sequence: count=8
+
+
