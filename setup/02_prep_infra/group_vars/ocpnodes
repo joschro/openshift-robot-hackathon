@@ -1,5 +1,0 @@
----
-ansible_ssh_private_key_file: "~/.ssh/grieger_ec2"
-# Change bastion IP here
-ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -i ~/.ssh/grieger_ec2 -q ec2-user@3.122.104.22"' 
-
