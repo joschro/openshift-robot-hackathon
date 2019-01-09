@@ -1,0 +1,55 @@
+---
+- name: Gather VPC facts
+  ec2_vpc_net_facts:
+    region: "{{ region }}"
+    filters:
+      "tag:Name": "{{namespace}}-vpc"
+  register: vpc_facts
+
+- debug:
+    msg: "{{vpc_facts}}"
+
+- block:
+  - name: Gather route table facts
+    ec2_vpc_route_table_facts:
+      region: "{{ region }}"
+      filters:
+        vpc-id: "{{ vpc_facts.vpcs[0].vpc_id }}"
+    register: vpc_route_table_facts
+
+  - name: Remove route tables from VPC
+    ec2_vpc_route_table:
+      vpc_id: "{{ item.vpc_id }}"
+      route_table_id: "{{item.id}}"
+      purge_routes: true
+      purge_subnets: true
+      region: "{{ region }}"
+      state: absent
+      lookup: id
+    with_items: "{{ vpc_route_table_facts.route_tables }}"
+    ignore_errors: true
+
+  - name: Remove subnets from VPC
+    ec2_vpc_subnet:
+      vpc_id: "{{ item.id }}"
+      cidr: "{{subnet_cidr}}"
+      region: "{{ region }}"
+      state: absent
+    with_items: "{{ vpc_facts.vpcs }}"
+
+  - name: Remove internet gateway
+    ec2_vpc_igw:
+      vpc_id: "{{ item.id }}"
+      region: "{{ region }}"
+      state: absent
+    with_items: "{{ vpc_facts.vpcs }}"
+
+  - name: Delete VPC
+    ec2_vpc_net:
+      name: "{{namespace}}-vpc"
+      cidr_block: "{{ vpc_cidr }}"
+      region: "{{ region }}"
+      state: absent
+    with_items: "{{ vpc_facts.vpcs }}"
+
+  when: vpc_facts.vpcs|length>0

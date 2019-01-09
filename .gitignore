@@ -1,0 +1,24 @@
+# IDE
+*.iml
+.idea
+
+# Packer
+build.log
+vars.json
+
+# Compiled classes
+/target
+
+# pass
+vault_pass
+aws-credentials
+*.retry
+private*
+secrets
+static.key
+aws-config.yml
+inventory
+ocpnodes
+
+# ansible
+*.retry

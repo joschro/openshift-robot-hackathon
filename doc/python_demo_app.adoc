@@ -1,0 +1,71 @@
+= Run the Python Template App
+
+To help you getting started programming the robot with Python we've provided a 
+Flask based simple web application as a template.
+
+ TIP: The documentation for the Flask web application 
+framework is here: http://flask.pocoo.org/docs/1.0/ 
+
+== Clone and Prepare the App Template
+
+Clone the app from here to your Git repo:
+
+https://github.com/goetzrieger/robot-hackathon-starter-app-python.git
+
+The only thing you have to change before you can deploy and run the template 
+application is to adapt URI endpoint for your teams robot.
+
+* Open the *config.py* file and change the URI definition to match your team:
+
+----
+http://hub-controller-live-hub-controller.apps-9d00.generic.opentlc.com/api/
+robot
+----
+
+== Deploying the App from the Web Console
+
+Make sure you are logged in as your team user to the lab OpenShift instance 
+(https://infranode-9d00.generic.opentlc.com:8443). 
+
+Then:
+
+* In the *Search Catalog* field search for *Python*
+* Click the *Python* icon in the results
+* Click *Next*
+* Leave the project set to the default (your teams project, e.g. 
+roboteam1-project)
+* Leave the Python version set to *latest*
+* Give the app a name, e.g. *roboteam1-python*
+* In the *Git Repository* field put your repo URL (like you would use for 
+cloning a Git repo).
+* Click *Create*
+
+Now close the create window and open your project view. You should see your 
+application listed here, click the arrow next to the name and the application 
+view will expand.
+
+To access the simple web page of the application use the external route, 
+depending on the name and your team it will look like this:
+
+http://roboteam1-python-roboteam1-project.apps-9d00.generic.opentlc.com/
+
+* Clicking the *State* button will do a simple test on your robot  
+* Clicking the *Run* button will execute the code in the *run()* function. 
+Initially it is just executing the */power* API call:
+
+----
+@application.route('/run')
+def run():
+    response = requests.get(application.config['URI'] + '/power')
+----
+
+== Start Coding
+
+Have a look at the source code. It's straight forward, the main code is in 
+*wsgi.py*, the variable are defined in *config.py* and the HTML template are in 
+the */templates* folder.
+
+Make yourself acquainted with the robot API and then start coding! You could 
+e.g. instruct the robot to move by changing the code in the *run()* function, 
+pushing it to the repo and rebuilding the application from the OpenShift console
+
