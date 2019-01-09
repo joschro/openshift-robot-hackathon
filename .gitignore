@@ -16,6 +16,9 @@ aws-credentials
 private*
 secrets
 static.key
+aws-config.yml
+inventory
+ocpnodes
 
 # ansible
 *.retry
