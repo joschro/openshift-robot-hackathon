@@ -1,9 +1,0 @@
----
-- name: Add user to htpasswd
-  command: "htpasswd -b {{htpasswd_path}} {{user.name}} {{user.password}}"
-  become: true
-  
-- name: Cluster admin rights
-  command: "oadm policy add-cluster-role-to-user cluster-admin {{user.name}}"
-  when: user.admin
-  become: true

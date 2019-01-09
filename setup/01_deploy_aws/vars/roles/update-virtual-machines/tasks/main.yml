@@ -1,8 +1,0 @@
----
-- name: upgrade packages on all nodes
-  yum: name=* state=latest
-  register: result
-  until: result is succeeded
-  retries: 3
-  delay: 5
-  become: true
