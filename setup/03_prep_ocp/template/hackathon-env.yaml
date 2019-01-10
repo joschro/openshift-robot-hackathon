@@ -373,18 +373,18 @@ objects:
             fi
 
             oc set resources dc/nexus --requests=cpu=200m,memory=1Gi --limits=cpu=2,memory=4Gi 
+            oc rollout status dc gogs
+            sleep 10             
 
             GOGS_SVC=$(oc get svc gogs -o template --template='{{.spec.clusterIP}}')
-            GOGS_USER=gogs
-            GOGS_PWD=gogs
-
-            oc rollout status dc gogs
+            GOGS_USER=gogsadmin
+            GOGS_PWD=r3dh4t1!
 
             _RETURN=$(curl -o /tmp/curl.log -sL --post302 -w "%{http_code}" http://$GOGS_SVC:3000/user/sign_up \
               --form user_name=$GOGS_USER \
               --form password=$GOGS_PWD \
               --form retype=$GOGS_PWD \
-              --form email=admin@gogs.com)
+              --form email=$GOGS_USER@example.com)
 
             sleep 5
 
@@ -396,11 +396,34 @@ objects:
 
             sleep 10
 
+            GOGS_USERCNT=5
+            for CNT in `seq 1 ${GOGS_USERCNT}`
+            do
+            GOGS_USER=roboteam${CNT}
+            GOGS_PWD=Hackath0n${CNT}   
+            GOGS_UID=`expr ${CNT} + 1`  
+
+            _RETURN=$(curl -o /tmp/curl.log -sL -w "%{http_code}" http://$GOGS_SVC:3000/user/sign_up \
+              --form user_name=$GOGS_USER \
+              --form password=$GOGS_PWD \
+              --form retype=$GOGS_PWD \
+              --form email=$GOGS_USER@example.com)
+
+            sleep 5
+
+            if [ $_RETURN != "200" ] && [ $_RETURN != "302" ] ; then
+              echo "ERROR: Failed to create Gogs user"
+              cat /tmp/curl.log
+              exit 255
+            fi
+
+            sleep 10
+
             cat <<EOF > /tmp/data.json
             {
-              "clone_addr": "https://github.com/OpenShiftDemos/openshift-tasks.git",
-              "uid": 1,
-              "repo_name": "openshift-tasks"
+              "clone_addr": "https://github.com/nexus-Six/robot-hackathon-starter-app-java.git",
+              "uid": ${GOGS_UID},
+              "repo_name": "robot-hackathon-starter-app-java"
             }
             EOF
 
@@ -415,31 +438,34 @@ objects:
 
             sleep 5
 
-            cat <<EOF > /tmp/data.json
-            {
-              "type": "gogs",
-              "config": {
-                "url": "https://openshift.default.svc.cluster.local/oapi/v1/namespaces/$CICD_NAMESPACE/buildconfigs/tasks-pipeline/webhooks/${WEBHOOK_SECRET}/generic",
-                "content_type": "json"
-              },
-              "events": [
-                "push"
-              ],
-              "active": true
-            }
-            EOF
+            done
 
-            _RETURN=$(curl -o /tmp/curl.log -sL -w "%{http_code}" -H "Content-Type: application/json" \
-            -u $GOGS_USER:$GOGS_PWD -X POST http://$GOGS_SVC:3000/api/v1/repos/gogs/openshift-tasks/hooks -d @/tmp/data.json)
+#            cat <<EOF > /tmp/data.json
+#            {
+#              "type": "gogs",
+#              "config": {
+#                "url": "https://openshift.default.svc.cluster.local/oapi/v1/namespaces/$CICD_NAMESPACE/buildconfigs/tasks-pipeline/webhooks/${WEBHOOK_SECRET}/generic",
+#                "content_type": "json"
+#              },
+#              "events": [
+#                "push"
+#              ],
+#              "active": true
+#            }
+#            EOF
 
-            if [ $_RETURN != "201" ] ; then
-              echo "ERROR: Failed to set webhook"
-              cat /tmp/curl.log
-              exit 255
-            fi
+#            _RETURN=$(curl -o /tmp/curl.log -sL -w "%{http_code}" -H "Content-Type: application/json" \
+#            -u $GOGS_USER:$GOGS_PWD -X POST http://$GOGS_SVC:3000/api/v1/repos/gogs/openshift-tasks/hooks -d @/tmp/data.json)
+#
+#            if [ $_RETURN != "201" ] ; then
+#              echo "ERROR: Failed to set webhook"
+#              cat /tmp/curl.log
+#              exit 255
+#            fi
           image: openshift/origin:v3.11
           name: cicd-demo-installer-job
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
         restartPolicy: Never
+

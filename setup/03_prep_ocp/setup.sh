@@ -143,7 +143,8 @@ function deploy() {
 
   sleep 2
 
-  local template=https://raw.githubusercontent.com/$GITHUB_ACCOUNT/openshift-robot-hackathon/setup/03_prep_ocp/template/hackathon-env.yaml
+  #local template=https://raw.githubusercontent.com/nexus-Six/openshift-robot-hackathon/master/setup/03_prep_ocp/template/hackathon-env.yaml
+  local template=~/openshift-robot-hackathon/setup/03_prep_ocp/template/hackathon-env.yaml
   echo "Using template $template"
   oc $ARG_OC_OPS new-app -f $template -p DEV_PROJECT=dev-$PRJ_SUFFIX -p STAGE_PROJECT=stage-$PRJ_SUFFIX -p DEPLOY_CHE=$ARG_DEPLOY_CHE -p EPHEMERAL=$ARG_EPHEMERAL -p ENABLE_QUAY=$ARG_ENABLE_QUAY -p QUAY_USERNAME=$ARG_QUAY_USER -p QUAY_PASSWORD=$ARG_QUAY_PASS -n cicd-$PRJ_SUFFIX 
 }
