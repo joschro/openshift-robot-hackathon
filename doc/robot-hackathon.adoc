@@ -134,7 +134,7 @@ To get this application into your workspace:
 * In the *Import project* window:
 ** Choose *GIT*
 ** *URL*: 
-\http://gitea.oapps.ose.sademo.de/<team name>/roboapp.git
+\http://gitea.oapps.ose.sademo.de/<teamname>/roboapp.git
 ** *Name*: Adapt the name to something sensible
 * In the next dialog choose *Java -> Maven*
 * Click *Save*
