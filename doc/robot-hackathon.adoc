@@ -160,7 +160,7 @@ export PATH=$PATH:/projects/ocpclient/
 WARNING: You need to set the path again when using a new terminal: `export 
 PATH=$PATH:/projects/ocpclient/`
 
-==== Login *oc* to OpenShift from Che workspace
+==== Login *oc* to OpenShift from CodeReady workspace
 
 Before deploying applications from your Che workspace to OpenShift, you have to 
 login the OpenShift client (oc) to the OpenShift environment. 
