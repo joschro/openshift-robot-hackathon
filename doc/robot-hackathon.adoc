@@ -66,28 +66,20 @@ started with programming the robot by developing applications on our container
 platform. 
 
 Your team user has already been created for you, the users are named 
-roboteam1-8 . Open your browser and access the OpenShift web UI:
+user1-8 . Open your browser and access the OpenShift web UI:
 
 ----
-https://infranode-9d00.generic.opentlc.com:8443/
+https://master.berlin-4dcf.openshiftworkshop.com/console
 ----
 
-* Login as your team user, e.g. *roboteam1*, the password will be provided. 
+* Login as your team user, e.g. *user1*, the password will be provided. 
 * Look around
 
-If you prefer the commandline *oc* tool, use an SSH client to connect to the 
-cluster gateway:
-
-----
-# ssh roboteam1@workstation-9d00.rhpds.opentlc.com
-----
-
-Login to the OpenShift cluster is made easy by using the 
-web UI. In the web UI click on the *?* button in the upper right and copy the 
+If you prefer the commandline *oc* tool (has to be installed on your PC), login to the OpenShift cluster is made easy by using the web UI. In the web UI click on the *?* button in the upper right and copy the 
 *oc* command line. Example:
 
 ----
-oc login https://infranode-9d00.generic.opentlc.com:8443 --token=<hidden>
+NN
 ----
 
 Paste this into the terminal and you are good to go!
@@ -102,35 +94,31 @@ So we are ready to start some coding. Normally you would now have to setup your
 dev environment... install IDE, language runtimes, build tool, version control 
 system/access, checkout code.... etc. And most of this specific to your OS.
 
-Because we work in a cutting edge environment we'll use 
-https://www.eclipse.org/che/[Eclipse Che], a 
-browser-based, cloud-native IDE running in the OpenShift environment.
+Because we work in a cutting edge environment we'll use CodeReady
+a browser-based, cloud-native IDE running in the OpenShift environment.
 
-Access Che in your browser:
+Access CodeReady in your browser:
 
 ----
-http://che-eclipse-che.apps-9d00.generic.opentlc.com/
+http://codeready-workspaces.apps.berlin-4dcf.openshiftworkshop.com
 ----
 
-Login as your team user, example:
+Click *Register* and self-register your team.
 
-* *Username*: roboteam1
-* *Password*: <as provided>
-
-Che provides development environment for several languages and runtimes. We'll 
+CodeReady provides development environment for several languages and runtimes. We'll 
 use Java in this example for our applications.
 
-==== Launch your workspace from Che
+==== Launch your workspace from CodeReady
 
-After login you are in the Workspace management view of Che. Start your 
-workspace in Che:
+After login you are in the Workspace management view of CodeReady. Start your 
+workspace in CodeReady:
 
 * *NAME*: team1-robot-app-workspace 
 * *SELECT STACK*: Java
 * Click *CREATE*
 * After creation has finished a pop-up appears, click *OPEN*.
 
-Now your Che workspace should open in your browser. 
+Now your CodeReady workspace should open in your browser. 
 
 TIP: Creating a new workspace can take some time.
 
@@ -146,8 +134,7 @@ To get this application into your workspace:
 * In the *Import project* window:
 ** Choose *GIT*
 ** *URL*: 
-\http://gogs-cicd-admin.apps-9d00.generic.opentlc.com/gogs/robot-hackathon-<your 
-team name>.git
+\http://gitea.oapps.ose.sademo.de/<team name>/roboapp.git
 ** *Name*: Adapt the name to something sensible
 * In the next dialog choose *Java -> Maven*
 * Click *Save*
