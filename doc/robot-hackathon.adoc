@@ -1,5 +1,7 @@
 = Robot Hackathon
 
+Jos was here
+
 == Introduction
 
 You are a special mission super coder/geek. Your mission is to complete 
